@@ -1,2 +1,2 @@
-# programa-o-web
+# programação-web
 Repositório para a matéria de programação web 
