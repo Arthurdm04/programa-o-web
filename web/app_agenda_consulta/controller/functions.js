@@ -1,21 +1,33 @@
-function verifyDate(data, hora) {
-    const agora = new Date();
-  
-    const dataHoraConsulta = new Date(`${data}T${hora}`);
-    if (isNaN(dataHoraConsulta.getTime())) {
-      return false;
-    } else if (dataHoraConsulta <= agora) {
-      return false;
+function getIndexView(req, res){
+    res.render('index.html');
+}
+
+function postAgendarConsulta(req, res){
+    let dados_consulta = req.body;
+    let campos_invalidos = validarRequisicaoAgendamentoConsulta(dados_consulta);
+    res.render('index.html', {campos_invalidos, dados_consulta});
+}
+
+module.exports = {
+    getIndexView,
+    postAgendarConsulta
+}
+
+function validarRequisicaoAgendamentoConsulta(dados_consulta){
+    let campos_invalidos = [];
+
+    if(dados_consulta.nome.length == 0){
+        form_invalido = true;
+        campos_invalidos.push("Nome");
     }
-    return true;
-  }
-  
-  function verifyCampo(valor, nomeCampo, campos_invalidos) {
-    if (!valor || valor.length === 0) {
-      campos_invalidos.push(nomeCampo);
-      return true;
+    if(dados_consulta.sobrenome.length == 0){
+        form_invalido = true;
+        campos_invalidos.push("Sobrenome");
     }
-    return false;
-  }
-  
-  module.exports = { verifyCampo, verifyDate };
+    if(dados_consulta.cpf.length == 0){
+        form_invalido = true;
+        campos_invalidos.push("CPF");
+    }
+
+    return campos_invalidos;
+}
